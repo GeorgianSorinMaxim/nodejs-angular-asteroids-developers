@@ -296,6 +296,7 @@ module.exports = function(app, passport) {
         user.email = email;
         user.phone = phone;
         user.username = username;
+        // TODO Hast the password using a salt
         user.password = password;
         user.role = role;
         user.organisation = organisation;
