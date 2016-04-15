@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/ngAlertify.js"></script>
 
     <!-- okeyNav -->
     <link rel="stylesheet" href="./css/okayNav.min.css" media="screen">
@@ -14,7 +15,7 @@
 
     <link rel="stylesheet" href="./css/style.css">
     <script src="./controller/news.js"></script>
-
+    <script src="./services/core.js"></script>
 </head>
 <body ng-controller="newsController">
   <header id="header">
@@ -35,46 +36,39 @@
     <h1>Self-measured National Early Warning Score (NEWS)</h1>
     <h2>Register your Physiological Parameters using this form.</h2>
 
-    <form action="/news" method="POST">
+    <form>
         <label for="cpr" class="labelForm">CPR</label>
-        <input type="text" id="cpr" name="cpr" placeholder="CPR" required/> </br>
+        <input type="text" id="cpr" name="cpr" placeholder="CPR" ng-model="input.cpr" required/> </br>
         
         <label for="firstname" class="labelForm">First Name</label>
-        <input type="text" id="firstname" name="firstname" placeholder="First Name" required/> </br>
+        <input type="text" id="firstname" name="firstname" placeholder="First Name" ng-model="input.firstname" required/> </br>
 
         <label for="lastname" class="labelForm">Last Name</label>
-        <input type="text" id="lastname" name="lastname" placeholder="Last Name" required/> </br>
+        <input type="text" id="lastname" name="lastname" placeholder="Last Name" ng-model="input.lastname" required/> </br>
 
         <label for="respiration" class="labelForm">Respiration Rate</label>
-        <select ng-model="resp" ng-options="option.value as option.name for option in respirationOptions"></select> </br> 
-        <input name="respiration" type="hidden" value="{{resp}}"/>
+        <select ng-model="input.respiration" ng-options="option.value as option.name for option in respirationOptions"></select> </br> 
 
         <label for="oxygenSat" class="labelForm">Oxygen Saturations</label>
-        <select ng-model="oxyS" ng-options="option.value as option.name for option in oxySatOptions" required></select> </br>
-        <input name="oxygenSat" type="hidden" value="{{oxyS}}"/>
+        <select ng-model="input.oxygenSat" ng-options="option.value as option.name for option in oxySatOptions" required></select> </br>
 
         <label for="oxygen" class="labelForm">Any Supplemental Oxygen</label>
-        <select ng-model="oxy" ng-options="option.value as option.name for option in oxyOptions" required></select> </br>
-        <input name="oxygen" type="hidden" value="{{oxy}}"/>
+        <select ng-model="input.oxygen" ng-options="option.value as option.name for option in oxyOptions" required></select> </br>
 
         <label for="temp" class="labelForm">Temperature</label>
-        <select ng-model="temp" ng-options="option.value as option.name for option in tempOptions" required></select> </br>
-        <input name="temp" type="hidden" value="{{temp}}"/>
+        <select ng-model="input.temp" ng-options="option.value as option.name for option in tempOptions" required></select> </br>
 
         <label for="systolic" class="labelForm">Systolic BP</label>
-        <select ng-model="sys" ng-options="option.value as option.name for option in sysOptions" required></select> </br>
-        <input name="systolic" type="hidden" value="{{sys}}"/>
+        <select ng-model="input.systolic" ng-options="option.value as option.name for option in sysOptions" required></select> </br>
 
         <label for="heartRate" class="labelForm">Heart Rate</label>
-        <select ng-model="hr" ng-options="option.value as option.name for option in hrOptions" required></select> </br>
-        <input name="heartRate" type="hidden" value="{{hr}}"/>
+        <select ng-model="input.heartRate" ng-options="option.value as option.name for option in hrOptions" required></select> </br>
 
         <label for="consciousness" class="labelForm">Level of Consciousness</label>
-        <select ng-model="cons" ng-options="option.value as option.name for option in conscOptions" required></select> </br>
-        <input name="consciousness" type="hidden" value="{{cons}}"/>
+        <select ng-model="input.consciousness" ng-options="option.value as option.name for option in conscOptions" required></select> </br>
 
         <div class="buttons">
-          <button class="button">Register NEWS</button>
+          <button class="button" ng-click="register()">Register NEWS</button>
         </div>
     </form>
 

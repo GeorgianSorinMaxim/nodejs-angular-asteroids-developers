@@ -25,6 +25,8 @@ require('./app/models/patient');
 require('./app/models/patientNews');
 require('./app/models/device');
 require('./app/models/user');
+require('./app/models/message');
+
 
 // Log every request to the console
 app.use(morgan('dev'));
@@ -48,9 +50,7 @@ app.use("/controller", express.static(__dirname + '/app/controller'));
 app.use("/js", express.static(__dirname + '/app/js'));
 app.use("/routes", express.static(__dirname + '/app/routes'));
 app.use("/views", express.static(__dirname + '/views'));
-
-
-app.use(session({ secret: 'myappsecret' }));
+app.use("/services", express.static(__dirname + '/app/services'));
 
 require('./app/routes/routes.js')(app);
 require('./node_modules/node-gcm');

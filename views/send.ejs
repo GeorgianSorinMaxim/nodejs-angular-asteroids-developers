@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/ngAlertify.js"></script>
 
     <!-- okeyNav -->
     <link rel="stylesheet" href="./css/okayNav.min.css" media="screen">
@@ -14,7 +15,7 @@
 
     <link rel="stylesheet" href="./css/style.css">
     <script src="./controller/send.js"></script>
-
+    <script src="./services/core.js"></script>
 </head>
 <body ng-controller="registerController">
     <header id="header">
@@ -33,13 +34,12 @@
 
     <main>
       <h1>Send Push Notification to the registered devices</h1>
-      <form id="" action="/sent" method="POST">
+      <form>
               <div id="">
-                  <input type="hidden" name="_method" value="put">
-                  <input type="text" id="title" name="title" ng-model="title" placeholder="Subject" required/> </br>
-                  <textarea id="msg" name="msg" ng-model="msg" placeholder="Message" required></textarea></br>
+                  <input type="text" id="title" name="title" ng-model="input.title" placeholder="Subject" required/> </br>
+                  <textarea id="msg" name="msg" ng-model="input.msg" placeholder="Message" required></textarea></br>
 <!--                   <select name="receiver" ng-model="receiver"  ng-options="option.value as option.name for option in typeOptions" class=""></select> -->
-                  <button type="submit" class="button"/>Send Push Message</button> </br>
+                  <button type="submit" class="button" ng-click="register()"/>Send Push Message</button> </br>
               </div>
       </form>
     </main>
