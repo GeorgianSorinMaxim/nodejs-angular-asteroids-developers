@@ -7,7 +7,10 @@ var router = express.Router();
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
-var url = 'mongodb://admin:admin@ds021999.mlab.com:21999/prototypedb';
+
+var config = require('../../config/conf.js');
+var url = config.url;
+var sender = new gcm.Sender(config.senderID);
 
 var Users = require('../models/user');
 var Patient = require('../models/patient');
@@ -16,8 +19,6 @@ var Device = require('../models/device');
 var Message = require('../models/message');
 var Test = require('../models/test');
 
-var sender = new gcm.Sender('AIzaSyB4cQyVIO0PCwKXZDs9ivMUxXkLNTCF2m4');
-// var sender = new gcm.Sender('DEV-a7659a8b-4ee4-4071-8653-dfa762fa61a6');
 
 module.exports = function(app, passport) {
 
@@ -166,7 +167,6 @@ module.exports = function(app, passport) {
     });
 
     app.post('/api/updatePatient', function(req, res, next) {
-        console.log(req.body);
         var cprp = req.body.cpr;
         var firstn = req.body.firstname;
         var lastn = req.body.lastname;
@@ -186,9 +186,6 @@ module.exports = function(app, passport) {
                         regTokens.push(stringregid);
                     });
 
-                    // console.log("regTokens ", regTokens);
-
-                    // SEND GCM PUSH NOTIFICATION
                     var message = new gcm.Message();
                     message.addNotification({
                       title: 'Triage Update',
@@ -197,11 +194,9 @@ module.exports = function(app, passport) {
                       sound: 'default'
                     });
 
-                    // console.log(message);
-
                     sender.send(message, { registrationTokens: regTokens }, function (err, response) {
                         if(err) console.error(err);
-                        else    console.log(response);
+                        else console.log(response);
                     });
 
                     var oldTriage = patient[0].triage;
@@ -346,9 +341,6 @@ module.exports = function(app, passport) {
                 regTokens.push(stringregid);
             });
 
-            // console.log("regTokens ", regTokens);
-
-            // SEND GCM PUSH NOTIFICATION
             var message = new gcm.Message();
             message.addNotification({
               title: 'NEWS Registered',
@@ -359,10 +351,8 @@ module.exports = function(app, passport) {
 
             sender.send(message, { registrationTokens: regTokens }, function (err, response) {
                 if(err) console.error(err);
-                else    console.log(response);
+                else console.log(response);
             });
-
-            // console.log(message);
 
             patientToks.save(function(err) {
                 if (err) return next(err);
