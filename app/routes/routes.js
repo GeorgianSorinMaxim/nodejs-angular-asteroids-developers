@@ -20,7 +20,7 @@ var Message = require('../models/message');
 var Test = require('../models/test');
 
 
-module.exports = function(app, passport) {
+module.exports = function(app) {
 
     app.get('/api/', function(req, res) {
         res.json({ message: 'Welcome to the API!' });   
@@ -123,6 +123,7 @@ module.exports = function(app, passport) {
     // POST GCM Push Notification page
     // Documentation: https://github.com/ToothlessGear/node-gcm
     app.post('/api/send', function(req, res, next) {
+        console.log(req.body);
         var datatitle = req.body.title;
         var datamsg = req.body.msg;
         // var receiver = req.body.receiver;

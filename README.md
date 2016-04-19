@@ -15,7 +15,7 @@ cd FOLDER_PATH
 ```
 #!javascript
 
-npm install --save
+npm install
 
 ```
 
