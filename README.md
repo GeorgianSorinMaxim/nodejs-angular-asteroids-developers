@@ -1,7 +1,7 @@
 How to deploy the Node.js framework:
 
   - If you have Node.js installed, skip this step:
-  - If not, download and install Node.js from here: https://nodejs.org/en/download/
+  - If not, download and install Node.js from here: https://nodejs.org/en/download/.
 
   - Install the project and its dependecies, by opening the terminal and navigating to the project folder:
 
@@ -18,13 +18,6 @@ $ npm install
 #!javascript
 
 $ npm install -g MODULE_NAME:
-
-
-```
-
-```
-#!javascript
-
 $ node server.js
 
 ```
@@ -38,8 +31,10 @@ http://localhost:3000/
 
 ```
 
-	(https://ionicapplication.herokuapp.com/) 
-###Deploy on Heroku by running in the terminal when being in the project folder after you logged in into your account and creating a new app in the Heroku dashboard. Follow this tutorial for the steps you need to take: https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction:
+
+
+
+###Deploy on Heroku by running in the terminal the following comamnds when being in the project folder, after you logged in into your account and creating a new app in the Heroku dashboard. Follow this tutorial for the steps you need to take: https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction:
 
 ```
 #!javascript
@@ -50,11 +45,11 @@ git add .
 git rm -r --cached node_modules
 git commit -m "Another commit"
 git push heroku master
+git push origin
 heroku open
 heroku logs --tail
 heroku logs -n 50
 ```
-
 
   - If you need to remove the origin branch
 
@@ -66,6 +61,7 @@ git remote -v
 
 ```
 
+###Creating a new Google Project and new MongoDB deployment:
 
   - For changing the SenderID of the Google Cloud Messaaging project follow this guide in order to create a new SenderID: https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04?hl=en
   - Change the SenderID in the config/conf.js file, pasting your newly created key in the senderID variabe: 'senderID' : 'YOUR_SENDERID_GOES_HERE'.
