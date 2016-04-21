@@ -20,7 +20,7 @@ $ npm install
 #!javascript
 
 $ npm install -g MODULE_NAME:
-$ node server.js
+$ nodemon server
 
 ```
 
@@ -51,6 +51,15 @@ git push origin
 heroku open
 heroku logs --tail
 heroku logs -n 50
+```
+
+  - Open the browser and go to the following URL: 
+
+```
+#!javascript
+
+http://CUSTOM_NAME.herokuapp.com/
+
 ```
 
   - If you need to remove the origin branch
