@@ -176,7 +176,7 @@ module.exports = function(app) {
         Device.find(function (err, devices) {
             if (err) return err;
             devices.forEach(function (item) {
-                var stringregid = "dwi1T9u3hQM:" + item.regid;
+                var stringregid = "dwi1T9u3hQM:"+item.regid;
                 regTokens.push(stringregid);
             });
 
@@ -193,6 +193,7 @@ module.exports = function(app) {
 
             // console.log(message);
 
+            console.log(regTokens);
             sender.send(message, { registrationTokens: regTokens }, function (err, response) {
                 if(err) {
                     console.error(err);
@@ -285,7 +286,7 @@ module.exports = function(app) {
 
     // Create a device (accessed at POST http://localhost:3000/api/devices/regid)
     app.post('/api/devices', function(req, res, next) {
-        if(req.body.regid && req.body.regid) { 
+        if(req.body.regid && req.body.uuid) { 
             var device = new Device();
             device.regid = req.body.regid;
             device.uuid = req.body.uuid;
