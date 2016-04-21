@@ -30,37 +30,40 @@ module.exports = function(app) {
     app.get('/', function(req, res, next) {
 
         // Experiment with sending 1000 notifications for testing the receival rate and battery life
-        var regTokens = [];
-        var message = "";
-        var i = 1;
+        // var regTokens = [];
+        // var message = "";
+        // var i = 1;
 
-        Device.find(function (err, devices) {
-            if (err) return err;
-            devices.forEach(function (item) {
-                var stringregid = "dwi1T9u3hQM:"+item.regid;
-                regTokens.push(stringregid);
-            });
+        // Device.find(function (err, devices) {
+        //     if (err) return err;
+        //     devices.forEach(function (item) {
+        //         var stringregid = "dwi1T9u3hQM:" + item.regid;
+        //         regTokens.push(stringregid);
+        //     });
 
-            setInterval(function() {   
+        //     setInterval(function() {   
 
-                // SEND GCM PUSH NOTIFICATION
-                message = new gcm.Message();
-                message.addNotification({
-                  title: 'Notification ' + i,
-                  body: 'sent!',
-                  icon: 'icon',
-                  sound: 'default'
-                });
+        //         // SEND GCM PUSH NOTIFICATION
+        //         message = new gcm.Message();
+        //         message.addNotification({
+        //           title: 'Notification ' + i,
+        //           body: 'sent!',
+        //           icon: 'icon',
+        //           sound: 'default'
+        //         });
 
-                console.log(message);
+        //         console.log(message);
 
-                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-                    if(err) console.error(err);
-                    // else console.log(response);
-                });
-                i++;
-            }, 5000); 
-        });
+        //         sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+        //             if(err) {
+        //                 console.log(err);
+        //                 return err;
+        //             }
+        //             // else console.log(response);
+        //         });
+        //         i++;
+        //     }, 5000); 
+        // });
         // Experiment code ends here
 
         res.render('index.ejs');
@@ -160,8 +163,8 @@ module.exports = function(app) {
     // Documentation: https://github.com/ToothlessGear/node-gcm
     app.post('/api/send', function(req, res, next) {
         console.log(req.body);
-        var datatitle = req.body.title;
-        var datamsg = req.body.msg;
+        var datatitle = req.body.title || "Default";
+        var datamsg = req.body.msg || "Message";
         // var receiver = req.body.receiver;
         var regTokens = [];
         var message = "";
@@ -173,7 +176,7 @@ module.exports = function(app) {
         Device.find(function (err, devices) {
             if (err) return err;
             devices.forEach(function (item) {
-                var stringregid = "dwi1T9u3hQM:"+item.regid;
+                var stringregid = "dwi1T9u3hQM:" + item.regid;
                 regTokens.push(stringregid);
             });
 
@@ -191,8 +194,10 @@ module.exports = function(app) {
             // console.log(message);
 
             sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-                if(err) console.error(err);
-                else console.log(response);
+                if(err) {
+                    console.error(err);
+                    return err;
+                } else console.log(response);
             });
 
             // Save the message and check for errors
@@ -204,199 +209,179 @@ module.exports = function(app) {
     });
 
     app.post('/api/updatePatient', function(req, res, next) {
-        var cprp = req.body.cpr;
-        var firstn = req.body.firstname;
-        var lastn = req.body.lastname;
-        var diagn = req.body.diagnosis;
-        var triageD = req.body.triage;
         var regTokens = [];
 
-        mongoose.model('Patient').find({ "cpr" : cprp }, function (err, patient) {
-              if (err) {
-                  return console.error(err);
-              } else {
+        if(req.body.cpr && req.body.firstname && req.body.lastname && req.body.diagnosis && req.body.triage) {
 
-                Device.find(function (err, devices) {
-                    if (err) return err;
-                    devices.forEach(function (item) {
-                        var stringregid = "dwi1T9u3hQM:"+item.regid;
-                        regTokens.push(stringregid);
+            mongoose.model('Patient').find({ "cpr" : cprp }, function (err, patient) {
+                  if (err) {
+                      return console.error(err);
+                  } else {
+
+                    Device.find(function (err, devices) {
+                        if (err) return err;
+                        devices.forEach(function (item) {
+                            var stringregid = "dwi1T9u3hQM:"+item.regid;
+                            regTokens.push(stringregid);
+                        });
+
+                        var message = new gcm.Message();
+                        message.addNotification({
+                          title: 'Triage Update',
+                          body: 'Triage level changed from ' + patient[0].triage + ' to ' + req.body.triage + ' for the patient ' + patient[0].firstname + ' ' + patient[0].lastname,
+                          icon: 'icon',
+                          sound: 'default'
+                        });
+
+                        sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                            if(err) { 
+                                console.error(err);
+                                return err;
+                            } else console.log(response);
+                        });
+
+                        var oldTriage = patient[0].triage;
+
+                        patient[0].cpr = req.body.cpr || '';
+                        patient[0].firstname = req.body.firstname || '';
+                        patient[0].lastname = req.body.lastname || '';
+                        patient[0].diagnosis = req.body.diagnosis || '';
+                        patient[0].triage = req.body.triage || '';
+
+                        patient[0].save(function(err) {
+                            if (err) return next(err);
+                            res.json(patient[0]);
+                        });
                     });
-
-                    var message = new gcm.Message();
-                    message.addNotification({
-                      title: 'Triage Update',
-                      body: 'Triage level changed from ' + patient[0].triage + ' to ' + triageD + ' for the patient ' + patient[0].firstname + ' ' + patient[0].lastname,
-                      icon: 'icon',
-                      sound: 'default'
-                    });
-
-                    sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-                        if(err) console.error(err);
-                        else console.log(response);
-                    });
-
-                    var oldTriage = patient[0].triage;
-
-                    patient[0].cpr = cprp || '';
-                    patient[0].firstname = firstn || '';
-                    patient[0].lastname = lastn || '';
-                    patient[0].diagnosis = diagn || '';
-                    patient[0].triage = triageD || '';
-
-                    patient[0].save(function(err) {
-                        if (err) return next(err);
-                        res.json(patient[0]);
-                    });
-                });
-              }
-        });
+                  }
+            });
+        } else return "User not existent!";
     });
 
 
     // Create a patient (accessed at POST http://localhost:3000/api/patients)
     app.post('/api/patients', function(req, res, next) {
-        var cpr = req.body.cpr;
-        var firstname = req.body.firstname;
-        var lastname = req.body.lastname;
-        var triage = req.body.triage;
-        var diagnosis = req.body.diagnosis;
-        var doctor = req.body.doctor;
-        var address = req.body.address;
-        var city = req.body.city;
-        var zip = req.body.zip;
-            
-        var patient = new Patient();
-        patient.cpr = cpr;
-        patient.firstname = firstname;
-        patient.lastname = lastname;
-        patient.triage = triage;
-        patient.diagnosis = diagnosis;
-        patient.doctor = doctor;
-        patient.address = address;
-        patient.city = city;
-        patient.zip = zip;
 
-        // Save the patient and check for errors
-        patient.save(function(err) {
-            if (err) res.send(err);
-            res.json(patient);
-        });
+        if(req.body.cpr && req.body.firstname && req.body.lastname && req.body.diagnosis && req.body.triage && req.body.doctor && req.body.address && req.body.city && req.body.zip) {
+            
+            var patient = new Patient();
+            patient.cpr = req.body.cpr;
+            patient.firstname = req.body.firstname;
+            patient.lastname = req.body.lastname;
+            patient.triage = req.body.triage;
+            patient.diagnosis = req.body.diagnosis;
+            patient.doctor = req.body.doctor;
+            patient.address = req.body.address;
+            patient.city = req.body.city;
+            patient.zip = req.body.zip;
+
+            // Save the patient and check for errors
+            patient.save(function(err) {
+                if (err) res.send(err);
+                res.json(patient);
+            });
+        } else return "No provided patient details!";
     });
 
     // Create a device (accessed at POST http://localhost:3000/api/devices/regid)
     app.post('/api/devices', function(req, res, next) {
-        var regid = req.body.regid;
-        var uuid = req.body.uuid;
-            
-        var device = new Device();
-        device.regid = regid;
-        device.uuid = uuid;
+        if(req.body.regid && req.body.regid) { 
+            var device = new Device();
+            device.regid = req.body.regid;
+            device.uuid = req.body.uuid;
 
-        // Save the device and check for errors
-        device.save(function(err) {
-            if (err) res.send(err);
-            res.json({ message: 'Device created!' });
-        });
+            // Save the device and check for errors
+            device.save(function(err) {
+                if (err) res.send(err);
+                res.json({ message: 'Device created!' });
+            });
+        } else return "No provided device details!";
     });
 
     // Create a test (accessed at POST http://localhost:3000/api/devices/name)
     app.post('/api/tests', function(req, res, next) {
-        var name = req.body.name;
-            
-        var test = new Test();
-        test.name = name;
+        if(req.body.name) { 
+            var test = new Test();
+            test.name = req.body.name;
 
-        // Save the device and check for errors
-        test.save(function(err) {
-            if (err) res.send(err);
-            res.json({ message: 'Test created!' });
-        });
+            // Save the device and check for errors
+            test.save(function(err) {
+                if (err) res.send(err);
+                res.json({ message: 'Test created!' });
+            });
+        } else return "No provided test details!";
     });
 
     // POST API Register user
     app.post('/api/registerUser', function(req, res, next) {
-        var employeeId = req.body.employeeId;
-        var firstname = req.body.firstname;
-        var lastname = req.body.lastname;
-        var email = req.body.email;
-        var phone = req.body.phone;
-        var username = req.body.username;
-        var password = req.body.password;
-        var role = req.body.role;
-        var organisation = req.body.org;
+        if(req.body.employeeId && req.body.firstname && req.body.lastname && req.body.email && req.body.phone && req.body.username && req.body.password && req.body.role && req.body.org) { 
+            var user = new Users();
+            user.employeeId = req.body.employeeId;
+            user.firstname = req.body.firstname;
+            user.lastname = req.body.lastname;
+            user.email = req.body.email;
+            user.phone = req.body.phone;
+            user.username = req.body.username;
+            // TODO Hast the password using a salt
+            user.password = req.body.password;
+            user.role = req.body.role;
+            user.organisation = req.body.org;
 
-        var user = new Users();
-        user.employeeId = employeeId;
-        user.firstname = firstname;
-        user.lastname = lastname;
-        user.email = email;
-        user.phone = phone;
-        user.username = username;
-        // TODO Hast the password using a salt
-        user.password = password;
-        user.role = role;
-        user.organisation = organisation;
-
-        user.save(function(err) {
-            if (err) return next(err);
-            res.json(user);
-        });
+            user.save(function(err) {
+                if (err) return next(err);
+                res.json(user);
+            });
+        } else return "No provided user details!";    
     });
 
     // POST API NEWS page
     app.post('/api/news', function(req, res, next) {
-        var cpr = req.body.cpr;
-        var firstname = req.body.firstname;
-        var lastname = req.body.lastname;
-        var respiration = req.body.respiration;
-        var oxygenSat = req.body.oxygenSat;
-        var oxygen = req.body.oxygen;
-        var temp = req.body.temp;
-        var systolic = req.body.systolic;
-        var heartRate = req.body.heartRate;
-        var consciousness = req.body.consciousness;
-        var score = parseInt(respiration) + parseInt(oxygenSat) + parseInt(oxygen) + parseInt(temp) + parseInt(systolic) + parseInt(heartRate) + parseInt(consciousness);
         var regTokens = [];
 
-        var patientToks = new PatientNews();
-        patientToks.cpr = cpr;
-        patientToks.firstname = firstname;
-        patientToks.lastname = lastname;
-        patientToks.respiration = respiration;
-        patientToks.oxygenSat = oxygenSat;
-        patientToks.oxygen = oxygen;
-        patientToks.temperature = temp;
-        patientToks.systolic = systolic;
-        patientToks.heartRate = heartRate;
-        patientToks.consciousness = consciousness;
-        patientToks.score = score;
+        if (req.body.cpr && req.body.lastname && req.body.respiration && req.body.oxygenSat && req.body.oxygen && req.body.temp && req.body.systolic && req.body.heartRate && req.body.consciousness) {
+            var score = parseInt(req.body.respiration, 10) + parseInt(req.body.oxygenSat, 10) + parseInt(req.body.oxygen, 10) + parseInt(req.body.temp, 10) + parseInt(req.body.systolic, 10) + parseInt(req.body.heartRate, 10) + parseInt(req.body.consciousness, 10);
 
-        Device.find(function (err, devices) {
-            if (err) return err;
-            devices.forEach(function (item) {
-                var stringregid = "dwi1T9u3hQM:"+item.regid;
-                regTokens.push(stringregid);
-            });
+            var patientToks = new PatientNews();
+            patientToks.cpr = req.body.cpr;
+            patientToks.firstname = req.body.firstname;
+            patientToks.lastname = req.body.lastname;
+            patientToks.respiration = req.body.respiration;
+            patientToks.oxygenSat = req.body.oxygenSat;
+            patientToks.oxygen = req.body.oxygen;
+            patientToks.temperature = req.body.temp;
+            patientToks.systolic = req.body.systolic;
+            patientToks.heartRate = req.body.heartRate;
+            patientToks.consciousness = req.body.consciousness;
+            patientToks.score = score;
 
-            var message = new gcm.Message();
-            message.addNotification({
-              title: 'NEWS Registered',
-              body: 'Score: ' + score + ' registered by ' + firstname + ' ' + lastname + ' CPR: ' + cpr,
-              icon: 'icon',
-              sound: 'default'
-            });
+            Device.find(function (err, devices) {
+                if (err) return err;
+                devices.forEach(function (item) {
+                    var stringregid = "dwi1T9u3hQM:"+item.regid;
+                    regTokens.push(stringregid);
+                });
 
-            sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-                if(err) console.error(err);
-                else console.log(response);
-            });
+                var message = new gcm.Message();
+                message.addNotification({
+                  title: 'NEWS Registered',
+                  body: 'Score: ' + score + ' registered by ' + req.body.firstname + ' ' + req.body.lastname + ' CPR: ' + req.body.cpr,
+                  icon: 'icon',
+                  sound: 'default'
+                });
 
-            patientToks.save(function(err) {
-                if (err) return next(err);
-                res.json(patientToks);
+                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                    if(err) { 
+                        console.error(err);
+                        return err;
+                    } else console.log(response);
+                });
+
+                patientToks.save(function(err) {
+                    if (err) return next(err);
+                    res.json(patientToks);
+                });
             });
-        });
+        } else return "No provided NEWS details!";
     }); 
 
     // DELETE API NEWS with patient cpr
@@ -404,9 +389,7 @@ module.exports = function(app) {
         PatientNews.remove({
             cpr: req.params.cpr
         }, function(err, news) {
-        if (err) {
-              return res.send(err);
-        }
+        if (err) return res.send(err);
         res.json({ message: 'Successfully deleted' });
       });
     });
@@ -416,9 +399,7 @@ module.exports = function(app) {
         Patient.remove({
             cpr: req.params.cpr
         }, function(err, news) {
-        if (err) {
-              return res.send(err);
-        }
+        if (err) return res.send(err);
         res.json({ message: 'Patient successfully deleted' });
       });
     });
@@ -427,9 +408,7 @@ module.exports = function(app) {
         Patient.remove({
               cpr: req.params.cpr
         }, function(err, patient) {
-              if (err) {
-                return res.send(err);
-              }
+        if (err) return res.send(err);
         });
         res.redirect('/patients');
     });
