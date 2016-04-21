@@ -1,6 +1,6 @@
 **You are able to deploy or use the server locally without creating a new MongoDB database or a new Google Project in the Google Developer Dasbhoard (https://developers.google.com) if you're using the default database and default Google Project.**
 
-## **Quick install** (using the default MongoDB hosted on [mlab.com](Link URL) and the default deployed Node.js server that can be found here: https://ionicapplication.herokuapp.com)
+## **Quick install** (using the default MongoDB hosted on [mlab.com](Link URL) and the default Google Project)
 
   - If you have Node.js installed, skip this step:
   - If not, download and install Node.js from here: https://nodejs.org/en/download/.
@@ -63,7 +63,7 @@ git remote -v
 
 ```
 
-## **Custom install** (using the default MongoDB hosted on [mlab.com](Link URL) and a newly created Google Projec)
+## **Custom install** (using the a newly created MongoDB hosted on [mlab.com](Link URL) and a newly created Google Projec)
 ###Creating a new Google Project and new MongoDB deployment:
 
   - For changing the SenderID of the Google Cloud Messaaging project follow this guide in order to create a new SenderID: https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04?hl=en
@@ -81,3 +81,5 @@ git remote -v
 'url' : 'YOUR_URL_GOES_HERE'
 
 ```
+
+ - Follow the rest of the steps defined in the Quick Install section.
