@@ -214,7 +214,7 @@ module.exports = function(app) {
 
         if(req.body.cpr && req.body.firstname && req.body.lastname && req.body.diagnosis && req.body.triage) {
 
-            mongoose.model('Patient').find({ "cpr" : cprp }, function (err, patient) {
+            mongoose.model('Patient').find({ "cpr" : req.body.cpr }, function (err, patient) {
                   if (err) {
                       return console.error(err);
                   } else {
