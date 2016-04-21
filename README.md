@@ -1,4 +1,6 @@
-How to deploy the Node.js framework:
+**You are able to deploy or use the server locally without creating a new MongoDB database or a new Google Project in the Google Developer Dasbhoard (https://developers.google.com) if you're using the default database and default Google Project.**
+
+## **Quick install** (using the default MongoDB hosted on [mlab.com](Link URL) and the default deployed Node.js server that can be found here: https://ionicapplication.herokuapp.com)
 
   - If you have Node.js installed, skip this step:
   - If not, download and install Node.js from here: https://nodejs.org/en/download/.
@@ -61,9 +63,21 @@ git remote -v
 
 ```
 
+## **Custom install** (using the default MongoDB hosted on [mlab.com](Link URL) and a newly created Google Projec)
 ###Creating a new Google Project and new MongoDB deployment:
 
   - For changing the SenderID of the Google Cloud Messaaging project follow this guide in order to create a new SenderID: https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-04?hl=en
-  - Change the SenderID in the config/conf.js file, pasting your newly created key in the senderID variabe: 'senderID' : 'YOUR_SENDERID_GOES_HERE'.
+  - Change the SenderID in the **config/conf.js** file, pasting your newly created key in the senderID variabe:
+```
+#!javascript
 
-  - For changing the database, change the url in the config/conf.js file, pasting your value (free MongoDB database hosting here: https://mlab.com/company/) in the url variabe: 'url' : 'YOUR_URL_GOES_HERE'
+'senderID' : 'YOUR_SENDERID_GOES_HERE'
+
+```
+  - For changing the database, change the url in the **config/conf.js** file, pasting your value (free MongoDB database hosting here: https://mlab.com/company/) in the url variabe: 
+```
+#!javascript
+
+'url' : 'YOUR_URL_GOES_HERE'
+
+```
