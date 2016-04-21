@@ -1,30 +1,31 @@
 How to deploy the Node.js framework:
 
-  - Install (if you have Node.js installed)
-Download and install Node.js from here: https://nodejs.org/en/download/
+  - If you have Node.js installed, skip this step:
+  - If not, download and install Node.js from here: https://nodejs.org/en/download/
 
   - Install the project and its dependecies, by opening the terminal and navigating to the project folder:
 
 ```
 #!javascript
 
-cd FOLDER_PATH
+$ cd FOLDER_PATH
+$ npm install
+
+```
+
+###Deploy locally by running in the terminal when being in the project folder. You might be required to install some modules that might be missing from your environment using:
+```
+#!javascript
+
+$ npm install -g MODULE_NAME:
+
 
 ```
 
 ```
 #!javascript
 
-npm install
-
-```
-
-  - Deploy locally by running in the terminal when being in the project folder. You might be required to install some modules that might be missing from your environment using npm install -g MODULE_NAME:
-
-```
-#!javascript
-
-node server.js
+$ node server.js
 
 ```
 
@@ -38,7 +39,7 @@ http://localhost:3000/
 ```
 
 	(https://ionicapplication.herokuapp.com/) 
-  - Deploy on Heroku by running in the terminal when being in the project folder after you logged in into your account and creating a new app in the Heroku dashboard. Follow this tutorial for the steps you need to take: https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction:
+###Deploy on Heroku by running in the terminal when being in the project folder after you logged in into your account and creating a new app in the Heroku dashboard. Follow this tutorial for the steps you need to take: https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction:
 
 ```
 #!javascript

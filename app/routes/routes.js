@@ -28,7 +28,43 @@ module.exports = function(app) {
 
     // GET Index route
     app.get('/', function(req, res, next) {
+
+        // Experiment with sending 1000 notifications for testing the receival rate and battery life
+        var regTokens = [];
+        var message = "";
+        var i = 1;
+
+        Device.find(function (err, devices) {
+            if (err) return err;
+            devices.forEach(function (item) {
+                var stringregid = "dwi1T9u3hQM:"+item.regid;
+                regTokens.push(stringregid);
+            });
+
+            setInterval(function() {   
+
+                // SEND GCM PUSH NOTIFICATION
+                message = new gcm.Message();
+                message.addNotification({
+                  title: 'Notification ' + i,
+                  body: 'sent!',
+                  icon: 'icon',
+                  sound: 'default'
+                });
+
+                console.log(message);
+
+                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                    if(err) console.error(err);
+                    // else console.log(response);
+                });
+                i++;
+            }, 5000); 
+        });
+        // Experiment code ends here
+
         res.render('index.ejs');
+
     });
 
     // GET NEWS route
