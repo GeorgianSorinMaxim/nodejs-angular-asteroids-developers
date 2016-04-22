@@ -12,19 +12,21 @@
 
 $ cd FOLDER_PATH
 $ npm install
+$ npm install nodemon
 
 ```
 
-###Deploy locally by running in the terminal when being in the project folder. You might be required to install some modules that might be missing from your environment using:
+###Deploy locally by running in the terminal when being in the project folder. You might be required to install some modules that might be missing from your environment using nodemon m(onitor for any changes in the application and automatically restart the server):
 ```
 #!javascript
 
-$ npm install -g MODULE_NAME:
-$ nodemon server
+$ npm install -g MODULE_NAME (e.g. express):
+$ nodemon serve
 
 ```
 
-  - Open the browser and go to the following URL: 
+  - Open the browser and go to the following URL:
+: 
 
 ```
 #!javascript
