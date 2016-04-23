@@ -29,7 +29,7 @@ module.exports = function(app) {
     // GET Index route
     app.get('/', function(req, res, next) {
 
-        // Experiment with sending 1000 notifications for testing the receival rate and battery life
+        // Experiment with sending notifications960 during 4 hours for testing the receival rate and battery life of the paired smartwatches
         var regTokens = [];
         var message = "";
         var i = 1;
