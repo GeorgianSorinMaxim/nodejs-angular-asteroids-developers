@@ -30,6 +30,7 @@ module.exports = function(app) {
     app.get('/', function(req, res, next) {
 
         // Experiment with sending notifications960 during 4 hours for testing the receival rate and battery life of the paired smartwatches
+        // Send 50 notifications at a time
         var regTokens = [];
         var message = "";
         var i = 1;
