@@ -1,21 +1,20 @@
 var myApp = angular.module("myApp", ["apiService", "ngAlertify"]);
 
-myApp.controller("newsController", function($scope, $http, alertify, Data) {
+myApp.controller("usersController", function($scope, $http, alertify, Data) {
 	$scope.sortType = 'score'; 
   	$scope.sortReverse = false;
   	$scope.score = '';  
 
-    Data.getNews()
+    Data.getUsers()
     .success(function(data) {
-    	$scope.newsList = data;
+    	$scope.users = data;
     });
 
-
-    $scope.deleteNews = function (id) {
-        Data.deleteNews(id)
+    $scope.deleteUser = function (username) {
+        Data.deleteUser(username)
         .success(function(data) {
           alertify
-          .alert("NEWS with the id: " + id + " was deleted!",  function () {
+          .alert("Patienten med username: " + username + " blev slettet!",  function () {
               window.location.reload();
           });
         });

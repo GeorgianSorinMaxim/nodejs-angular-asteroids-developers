@@ -30,6 +30,12 @@ angular.module('apiService', [])
 			},
 			delete : function(id) {
 				return $http.delete('/api/patients/' + id);
+			},
+			getUsers : function() {
+				return $http.get('/api/users');
+			},
+			deleteNews : function(id) {
+				return $http.delete('/api/news/' + id);
 			}
 		}
 	}]);

@@ -31,40 +31,40 @@ module.exports = function(app) {
 
         // Experiment with sending notifications960 during 4 hours for testing the receival rate and battery life of the paired smartwatches
         // Send 50 notifications at a time
-        var regTokens = [];
-        var message = "";
-        var i = 1;
+        // var regTokens = [];
+        // var message = "";
+        // var i = 1;
 
-        Device.find(function (err, devices) {
-            if (err) return err;
-            devices.forEach(function (item) {
-                var stringregid = "dwi1T9u3hQM:" + item.regid;
-                regTokens.push(stringregid);
-            });
+        // Device.find(function (err, devices) {
+        //     if (err) return err;
+        //     devices.forEach(function (item) {
+        //         var stringregid = "dwi1T9u3hQM:" + item.regid;
+        //         regTokens.push(stringregid);
+        //     });
 
-            setInterval(function() {   
+        //     setInterval(function() {   
 
-                // SEND GCM PUSH NOTIFICATION
-                message = new gcm.Message();
-                message.addNotification({
-                  title: 'Notification ' + i,
-                  body: 'sent!',
-                  icon: 'icon',
-                  sound: 'default'
-                });
+        //         // SEND GCM PUSH NOTIFICATION
+        //         message = new gcm.Message();
+        //         message.addNotification({
+        //           title: 'Notification ' + i,
+        //           body: 'sent!',
+        //           icon: 'icon',
+        //           sound: 'default'
+        //         });
 
-                console.log(message);
+        //         console.log(message);
 
-                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-                    if(err) {
-                        console.log(err);
-                        return err;
-                    }
-                    // else console.log(response);
-                });
-                i++;
-            }, 15000); 
-        });
+        //         sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+        //             if(err) {
+        //                 console.log(err);
+        //                 return err;
+        //             }
+        //             // else console.log(response);
+        //         });
+        //         i++;
+        //     }, 15000); 
+        // });
         // Experiment code ends here
 
         res.render('index.ejs');
@@ -91,6 +91,30 @@ module.exports = function(app) {
         res.render('user.ejs');
     });
 
+     // GET Users route
+    app.get('/users', function(req, res, next) {
+        res.render('users.ejs');
+    });
+
+    
+    // GET API Users route
+    app.get('/api/users', function(req, res, next) {
+        Users.find(function(err, users) {
+            if (err) res.send(err);
+            res.json(users);
+        });
+    });
+
+    // GET User with username
+    app.get('/api/users/:username', function(req, res) {
+        var username = req.params.username;
+        mongoose.model('Users').find({ "username": username }, function (err, user) {
+          if (err) res.send(err);
+          res.json(user);
+        });
+    });
+
+
     // GET Patients page
     app.get('/patients', function(req, res) {
         Patient.find(function(err, patients) {
@@ -99,14 +123,6 @@ module.exports = function(app) {
             res.render('patients.ejs', {
                 "patients" : patients
             });
-        });
-    });
-
-    // GET API Users route
-    app.get('/api/users', function(req, res, next) {
-        Users.find(function(err, users) {
-            if (err) res.send(err);
-            res.json(users);
         });
     });
 
@@ -387,9 +403,9 @@ module.exports = function(app) {
     }); 
 
     // DELETE API NEWS with patient cpr
-    app.delete('/api/news/:cpr', function(req, res) {
+    app.delete('/api/news/:id', function(req, res) {
         PatientNews.remove({
-            cpr: req.params.cpr
+            _id: req.params.id
         }, function(err, news) {
         if (err) return res.send(err);
         res.json({ message: 'Successfully deleted' });
