@@ -30,40 +30,40 @@ module.exports = function(app) {
     app.get('/', function(req, res, next) {
 
         // Experiment with sending 1000 notifications for testing the receival rate and battery life
-        // var regTokens = [];
-        // var message = "";
-        // var i = 1;
+        var regTokens = [];
+        var message = "";
+        var i = 1;
 
-        // Device.find(function (err, devices) {
-        //     if (err) return err;
-        //     devices.forEach(function (item) {
-        //         var stringregid = "dwi1T9u3hQM:" + item.regid;
-        //         regTokens.push(stringregid);
-        //     });
+        Device.find(function (err, devices) {
+            if (err) return err;
+            devices.forEach(function (item) {
+                var stringregid = "dwi1T9u3hQM:" + item.regid;
+                regTokens.push(stringregid);
+            });
 
-        //     setInterval(function() {   
+            setInterval(function() {   
 
-        //         // SEND GCM PUSH NOTIFICATION
-        //         message = new gcm.Message();
-        //         message.addNotification({
-        //           title: 'Notification ' + i,
-        //           body: 'sent!',
-        //           icon: 'icon',
-        //           sound: 'default'
-        //         });
+                // SEND GCM PUSH NOTIFICATION
+                message = new gcm.Message();
+                message.addNotification({
+                  title: 'Notification ' + i,
+                  body: 'sent!',
+                  icon: 'icon',
+                  sound: 'default'
+                });
 
-        //         console.log(message);
+                console.log(message);
 
-        //         sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-        //             if(err) {
-        //                 console.log(err);
-        //                 return err;
-        //             }
-        //             // else console.log(response);
-        //         });
-        //         i++;
-        //     }, 5000); 
-        // });
+                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                    if(err) {
+                        console.log(err);
+                        return err;
+                    }
+                    // else console.log(response);
+                });
+                i++;
+            }, 15000); 
+        });
         // Experiment code ends here
 
         res.render('index.ejs');
