@@ -248,9 +248,10 @@ module.exports = function(app) {
                           title: 'Triage Update',
                           body: 'Triage level changed from ' + patient[0].triage + ' to ' + req.body.triage + ' for the patient ' + patient[0].firstname + ' ' + patient[0].lastname,
                           icon: 'icon',
-                          sound: 'default'
+                          sound: 'default',
+                          click_action: "OPEN_ACTIVITY_1"
                         });
-
+                        
                         sender.send(message, { registrationTokens: regTokens }, function (err, response) {
                             if(err) { 
                                 console.error(err);
