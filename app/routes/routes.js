@@ -31,40 +31,40 @@ module.exports = function(app) {
 
         // Experiment with sending notifications960 during 4 hours for testing the receival rate and battery life of the paired smartwatches
         // Send 50 notifications at a time
-        var regTokens = [];
-        var message = "";
-        var i = 1;
+        // var regTokens = [];
+        // var message = "";
+        // var i = 1;
 
-        Device.find(function (err, devices) {
-            if (err) return err;
-            devices.forEach(function (item) {
-                var stringregid = "dwi1T9u3hQM:" + item.regid;
-                regTokens.push(stringregid);
-            });
+        // Device.find(function (err, devices) {
+        //     if (err) return err;
+        //     devices.forEach(function (item) {
+        //         var stringregid = "dwi1T9u3hQM:" + item.regid;
+        //         regTokens.push(stringregid);
+        //     });
 
-            setInterval(function() {   
+        //     setInterval(function() {   
 
-                // SEND GCM PUSH NOTIFICATION
-                message = new gcm.Message();
-                message.addNotification({
-                  title: 'Notification ' + i,
-                  body: 'sent!',
-                  icon: 'icon',
-                  sound: 'default'
-                });
+        //         // SEND GCM PUSH NOTIFICATION
+        //         message = new gcm.Message();
+        //         message.addNotification({
+        //           title: 'Notification ' + i,
+        //           body: 'sent!',
+        //           icon: 'icon',
+        //           sound: 'default'
+        //         });
 
-                console.log(message);
+        //         console.log(message);
 
-                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-                    if(err) {
-                        console.log(err);
-                        return err;
-                    }
-                    // else console.log(response);
-                });
-                i++;
-            }, 15000); 
-        });
+        //         sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+        //             if(err) {
+        //                 console.log(err);
+        //                 return err;
+        //             }
+        //             // else console.log(response);
+        //         });
+        //         i++;
+        //     }, 15000); 
+        // });
         // Experiment code ends here
 
         res.render('index.ejs');
@@ -440,6 +440,55 @@ module.exports = function(app) {
         if (err) return res.send(err);
         });
         res.redirect('/patients');
+    });
+
+    // Custom notification test
+    app.post('/api/custom', function(req, res, next) {
+        console.log(req.body);
+        var datatitle = req.body.title || "New Notification";
+        var datamsg = req.body.msg || "Message";
+        // var receiver = req.body.receiver;
+        var regTokens = [];
+        var message = "";
+
+        var newMesage = new Message();
+        newMesage.title = datatitle;
+        newMesage.body = datamsg;
+
+        Device.find(function (err, devices) {
+            if (err) return err;
+            devices.forEach(function (item) {
+                var stringregid = "dwi1T9u3hQM:"+item.regid;
+                regTokens.push(stringregid);
+            });
+
+            // console.log("regTokens ", regTokens);
+
+            // SEND GCM PUSH NOTIFICATION
+            message = new gcm.Message();
+            message.addNotification({
+              title: '' + datatitle + '',
+              body: '' + req.body + '',
+              icon: 'icon',
+              sound: 'default'
+            });
+
+            // console.log(message);
+
+            console.log(regTokens);
+            sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                if(err) {
+                    console.error(err);
+                    return err;
+                } else console.log(response);
+            });
+
+            // Save the message and check for errors
+            newMesage.save(function(err) {
+                if (err) res.send(err);
+                res.json(newMesage);
+            });
+        });
     });
 
     // Handle 404
