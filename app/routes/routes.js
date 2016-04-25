@@ -357,6 +357,20 @@ module.exports = function(app) {
     app.post('/api/news', function(req, res, next) {
         var regTokens = [];
 
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1;
+        var yyyy = today.getFullYear();
+        var hh = today.getHours();
+        var min = today.getMinutes();
+
+        if (min < 10) min = "0" + min;
+        if (hh < 10) hh = "0" + hh;
+        if (mm < 10) mm = "0" + mm;
+        if (dd < 10) dd = "0" + dd;
+
+        // console.log(today, dd, mm, yyyy, hh, min);
+
         if (req.body.cpr && req.body.lastname && req.body.respiration && req.body.oxygenSat && req.body.oxygen && req.body.temp && req.body.systolic && req.body.heartRate && req.body.consciousness) {
             var score = parseInt(req.body.respiration, 10) + parseInt(req.body.oxygenSat, 10) + parseInt(req.body.oxygen, 10) + parseInt(req.body.temp, 10) + parseInt(req.body.systolic, 10) + parseInt(req.body.heartRate, 10) + parseInt(req.body.consciousness, 10);
 
@@ -372,6 +386,8 @@ module.exports = function(app) {
             patientToks.heartRate = req.body.heartRate;
             patientToks.consciousness = req.body.consciousness;
             patientToks.score = score;
+            patientToks.currentdate = dd + '/' + mm + '/' + yyyy;
+            patientToks.currenttime = hh + ':' + min;
 
             Device.find(function (err, devices) {
                 if (err) return err;
@@ -382,8 +398,8 @@ module.exports = function(app) {
 
                 var message = new gcm.Message();
                 message.addNotification({
-                  title: 'NEWS Registered',
-                  body: 'Score: ' + score + ' registered by ' + req.body.firstname + ' ' + req.body.lastname + ' CPR: ' + req.body.cpr,
+                  title: 'BOS Registeret',
+                  body: 'Score: ' + score + ' \n\ ' + ' Navn: ' + req.body.firstname + ' ' + req.body.lastname + ' \n\ ' + ' CPR: ' + req.body.cpr,
                   icon: 'icon',
                   sound: 'default'
                 });

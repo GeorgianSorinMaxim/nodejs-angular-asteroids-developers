@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app="myApp">
 <head>
-    <title>Register user</title>
+    <title>Register bruger</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -19,13 +19,11 @@
     <header id="header">
         <nav role="navigation" id="nav-main" class="okayNav">
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/news">NEWS</a></li>
-                <li><a href="/newsList">NEWS List</a></li>
-                <li><a href="/patients">Patients List</a></li>
-                <li><a href="/user">Register User</a></li> 
-                <li><a href="/users">Users List</a></li>    
-                <li><a href="/send">Send Message</a></li>                                        
+              <li><a href="/">Hjem</a></li>
+              <li><a href="/news">Registrere BOS</a></li>
+              <li><a href="/newsList">BOS Liste</a></li>
+              <li><a href="/user">Ny bruger for mobilen</a></li>      
+              <li><a href="/users">Bruger liste</a></li>                                         
             </ul>
         </nav>
     </header>
@@ -33,21 +31,21 @@
     </br>
 
     <main>
-      <h1>Create a new user for the mobile application.</h1>
+      <h1>Opret en ny bruger for den mobile applikation.</h1>
       <form class="user">
           <div class="add">
-              <input type="text" id="employeeId" name="employeeId" placeholder="Employee ID" ng-model="input.employeeId" required />
-              <input type="text" id="firstname" name="firstname" placeholder="First Name" ng-model="input.firstname" required/>
-              <input type="text" id="lastname" name="lastname" placeholder="Last Name" ng-model="input.lastname" required/>
+              <input type="text" id="employeeId" name="employeeId" placeholder="Medarbejder ID" ng-model="input.employeeId" required />
+              <input type="text" id="firstname" name="firstname" placeholder="Fornavn" ng-model="input.firstname" required/>
+              <input type="text" id="lastname" name="lastname" placeholder="Efternavn" ng-model="input.lastname" required/>
               <input type="text" id="email" name="email" placeholder="Email" ng-model="input.email" required/>
               <input type="text" id="phone" name="phone" placeholder="Phone" ng-model="input.phone" required/>
-              <input type="text" id="role" name="role" placeholder="Role" ng-model="input.role" />
+              <input type="text" id="role" name="role" placeholder="Rolle" ng-model="input.role" />
               <input type="text" id="org" name="org" placeholder="Organisation" ng-model="input.org" />
 
-              <input type="text" id="username" name="username" placeholder="Username" ng-model="input.username" required/>
+              <input type="text" id="username" name="username" placeholder="Brugernavn" ng-model="input.username" required/>
               <input type="password" id="password" name="password" placeholder="Password" ng-model="input.password" required/>
 
-              <button type="submit" class="button" ng-click="register()"/>Create User</button> </br>
+              <button type="submit" class="button" ng-click="register()"/>Opret Bruger</button> </br>
           </div>
       </form>
     </main>

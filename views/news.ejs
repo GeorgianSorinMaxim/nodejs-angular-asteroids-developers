@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app="myApp">
 <head>
-    <title>NEWS Registration / Notification</title>
+    <title>Register BOS</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -21,13 +21,11 @@
   <header id="header">
       <nav role="navigation" id="nav-main" class="okayNav">
           <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/news">NEWS</a></li>
-                <li><a href="/newsList">NEWS List</a></li>
-                <li><a href="/patients">Patients List</a></li>
-                <li><a href="/user">Register User</a></li> 
-                <li><a href="/users">Users List</a></li>    
-                <li><a href="/send">Send Message</a></li>                                                
+              <li><a href="/">Hjem</a></li>
+              <li><a href="/news">Registrere BOS</a></li>
+              <li><a href="/newsList">BOS Liste</a></li>
+              <li><a href="/user">Ny bruger for mobilen</a></li>      
+              <li><a href="/users">Bruger liste</a></li>                                                   
           </ul>
       </nav>
   </header>
@@ -35,42 +33,42 @@
   </br>
 
   <main>
-    <h1>Self-measured National Early Warning Score (NEWS)</h1>
-    <h2>Register your Physiological Parameters using this form.</h2>
+    <h1>BOS Score</h1>
+    <h2>Registrer dit fysiologiske parametre ved hjælp af denne formular.</h2>
 
     <form>
         <label for="cpr" class="labelForm">CPR</label>
         <input type="text" id="cpr" name="cpr" placeholder="CPR" ng-model="input.cpr" required/> </br>
         
-        <label for="firstname" class="labelForm">First Name</label>
-        <input type="text" id="firstname" name="firstname" placeholder="First Name" ng-model="input.firstname" required/> </br>
+        <label for="firstname" class="labelForm">Fornavn</label>
+        <input type="text" id="firstname" name="firstname" placeholder="Fornavn" ng-model="input.firstname" required/> </br>
 
-        <label for="lastname" class="labelForm">Last Name</label>
-        <input type="text" id="lastname" name="lastname" placeholder="Last Name" ng-model="input.lastname" required/> </br>
+        <label for="lastname" class="labelForm">Efternavn</label>
+        <input type="text" id="lastname" name="lastname" placeholder="Efternavn" ng-model="input.lastname" required/> </br>
 
-        <label for="respiration" class="labelForm">Respiration Rate</label>
+        <label for="respiration" class="labelForm">Respirationsrate</label>
         <select ng-model="input.respiration" ng-options="option.value as option.name for option in respirationOptions"></select> </br> 
 
-        <label for="oxygenSat" class="labelForm">Oxygen Saturations</label>
+        <label for="oxygenSat" class="labelForm">Saturation</label>
         <select ng-model="input.oxygenSat" ng-options="option.value as option.name for option in oxySatOptions" required></select> </br>
 
-        <label for="oxygen" class="labelForm">Any Supplemental Oxygen</label>
+        <label for="oxygen" class="labelForm">Supplerende ilt</label>
         <select ng-model="input.oxygen" ng-options="option.value as option.name for option in oxyOptions" required></select> </br>
 
-        <label for="temp" class="labelForm">Temperature</label>
+        <label for="temp" class="labelForm">Temperatur</label>
         <select ng-model="input.temp" ng-options="option.value as option.name for option in tempOptions" required></select> </br>
 
-        <label for="systolic" class="labelForm">Systolic BP</label>
+        <label for="systolic" class="labelForm">Systolisk blodtryk</label>
         <select ng-model="input.systolic" ng-options="option.value as option.name for option in sysOptions" required></select> </br>
 
-        <label for="heartRate" class="labelForm">Heart Rate</label>
+        <label for="heartRate" class="labelForm">Puls</label>
         <select ng-model="input.heartRate" ng-options="option.value as option.name for option in hrOptions" required></select> </br>
 
-        <label for="consciousness" class="labelForm">Level of Consciousness</label>
+        <label for="consciousness" class="labelForm">Bevidsthedsniveau</label>
         <select ng-model="input.consciousness" ng-options="option.value as option.name for option in conscOptions" required></select> </br>
 
         <div class="buttons">
-          <button class="button" ng-click="register()">Register NEWS</button>
+          <button class="button" ng-click="register()">Register BOS</button>
         </div>
     </form>
 

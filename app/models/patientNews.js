@@ -12,7 +12,9 @@ var patientNews = mongoose.Schema({
     systolic: { type: String, default: '' },
     heartRate: { type: String, default: '' },
     consciousness: { type: String, default: '' },
-    score: { type: String, default: '' }
+    score: { type: String, default: '' },
+    currentdate: { type: String, default: '' },
+    currenttime: { type: String, default: '' }
 });
 
 module.exports = mongoose.model('PatientNews', patientNews);

@@ -23,13 +23,11 @@
     <header id="header">
         <nav role="navigation" id="nav-main" class="okayNav">
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/news">NEWS</a></li>
-                <li><a href="/newsList">NEWS List</a></li>
-                <li><a href="/patients">Patients List</a></li>
-                <li><a href="/user">Register User</a></li> 
-                <li><a href="/users">Users List</a></li>    
-                <li><a href="/send">Send Message</a></li>                                      
+              <li><a href="/">Hjem</a></li>
+              <li><a href="/news">Registrere BOS</a></li>
+              <li><a href="/newsList">BOS Liste</a></li>
+              <li><a href="/user">Ny bruger for mobilen</a></li>      
+              <li><a href="/users">Bruger liste</a></li>                                         
             </ul>
         </nav>
     </header>
@@ -38,7 +36,7 @@
 
     <main>
 
-        <h1>Self-measured NEWS List</h1>
+        <h1>BOS Liste</h1>
 
        <table class="table table-bordered table-striped">
         <thead>
@@ -52,74 +50,81 @@
             </td>
             <td>
               <a href="#" ng-click="sortType = 'firstname'; sortReverse = !sortReverse">
-              Firstname
+              Fornavn
                 <span ng-show="sortType == 'firstname' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'firstname' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>
             <td>
               <a href="#" ng-click="sortType = 'lastname'; sortReverse = !sortReverse">
-              Lastname 
+              Efternavn 
                 <span ng-show="sortType == 'lastname' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'lastname' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>
             <td>
               <a href="#" ng-click="sortType = 'score'; sortReverse = !sortReverse">
-              NEWS Score 
+              BOS Score 
                 <span ng-show="sortType == 'score' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'score' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>
             <td>
               <a href="#" ng-click="sortType = 'respiration'; sortReverse = !sortReverse">
-              Respiration Rate 
+              Respirationsrate 
                 <span ng-show="sortType == 'respiration' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'respiration' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>
             <td>
               <a href="#" ng-click="sortType = 'oxygenSat'; sortReverse = !sortReverse">
-              Oxygen Saturation 
+              Saturation 
                 <span ng-show="sortType == 'oxygenSat' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'oxygenSat' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>
             <td>
               <a href="#" ng-click="sortType = 'oxygen'; sortReverse = !sortReverse">
-              Any Supplement Oxygen
+              Supplerende ilt
                 <span ng-show="sortType == 'oxygen' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'oxygen' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>
             <td>
               <a href="#" ng-click="sortType = 'temperature'; sortReverse = !sortReverse">
-              Temperature
+              Temperatur
                 <span ng-show="sortType == 'temperature' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'temperature' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>
             <td>
               <a href="#" ng-click="sortType = 'systolic'; sortReverse = !sortReverse">
-              Systolic BP
+              Systolisk blodtryk
                 <span ng-show="sortType == 'systolic' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'systolic' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>
             <td>
               <a href="#" ng-click="sortType = 'heartRate'; sortReverse = !sortReverse">
-              Heart Rate 
+              Puls 
                 <span ng-show="sortType == 'heartRate' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'heartRate' && sortReverse" class="fa fa-caret-up"></span>
               </a>
             </td>       
             <td>
               <a href="#" ng-click="sortType = 'consciousness'; sortReverse = !sortReverse">
-              Level of Consciousness 
+              Bevidsthedsniveau 
                 <span ng-show="sortType == 'consciousness' && !sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="sortType == 'consciousness' && sortReverse" class="fa fa-caret-up"></span>
               </a>
-            </td>                                               
+            </td>    
+            <td>
+              <a href="#" ng-click="sortType = 'consciousness'; sortReverse = !sortReverse">
+              Timestamp 
+                <span ng-show="sortType == 'consciousness' && !sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="sortType == 'consciousness' && sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </td>                                             
           </tr>
         </thead>
         
@@ -136,7 +141,8 @@
             <td>{{ news.systolic }}</td>
             <td>{{ news.heartRate }}</td>
             <td>{{ news.consciousness }}</td>
-            <td><button type="submit" ng-click="deleteNews(this.news._id)" class="buttonRed"/>Delete</button></td>    
+            <td>{{ news.currentdate }} - {{ news.currenttime }}</td>
+            <td><button type="submit" ng-click="deleteNews(this.news._id)" class="buttonRed"/>Slet</button></td>    
           </tr>
         </tbody>
       </table>
