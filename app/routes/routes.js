@@ -31,40 +31,40 @@ module.exports = function(app) {
 
         // Experiment with sending notifications960 during 4 hours for testing the receival rate and battery life of the paired smartwatches
         // Send 50 notifications at a time
-        // var regTokens = [];
-        // var message = "";
-        // var i = 1;
+        var regTokens = [];
+        var message = "";
+        var i = 1;
 
-        // Device.find(function (err, devices) {
-        //     if (err) return err;
-        //     devices.forEach(function (item) {
-        //         var stringregid = "dwi1T9u3hQM:" + item.regid;
-        //         regTokens.push(stringregid);
-        //     });
+        Device.find(function (err, devices) {
+            if (err) return err;
+            devices.forEach(function (item) {
+                var stringregid = "dwi1T9u3hQM:" + item.regid;
+                regTokens.push(stringregid);
+            });
 
-        //     setInterval(function() {   
+            setInterval(function() {   
 
-        //         // SEND GCM PUSH NOTIFICATION
-        //         message = new gcm.Message();
-        //         message.addNotification({
-        //           title: 'Notification ' + i,
-        //           body: 'sent!',
-        //           icon: 'icon',
-        //           sound: 'default'
-        //         });
+                // SEND GCM PUSH NOTIFICATION
+                message = new gcm.Message();
+                message.addNotification({
+                  title: 'Notification ' + i,
+                  body: 'sent!',
+                  icon: 'icon',
+                  sound: 'default'
+                });
 
-        //         console.log(message);
+                console.log(message);
 
-        //         sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-        //             if(err) {
-        //                 console.log(err);
-        //                 return err;
-        //             }
-        //             // else console.log(response);
-        //         });
-        //         i++;
-        //     }, 15000); 
-        // });
+                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                    if(err) {
+                        console.log(err);
+                        return err;
+                    }
+                    // else console.log(response);
+                });
+                i++;
+            }, 15000); 
+        });
         // Experiment code ends here
 
         res.render('index.ejs');
@@ -420,6 +420,16 @@ module.exports = function(app) {
         }, function(err, news) {
         if (err) return res.send(err);
         res.json({ message: 'Patient successfully deleted' });
+      });
+    });
+
+    // DELETE API User with username
+    app.delete('/api/user/:username', function(req, res) {
+        Users.remove({
+            username: req.params.username
+        }, function(err, news) {
+        if (err) return res.send(err);
+        res.json({ message: 'User successfully deleted' });
       });
     });
 

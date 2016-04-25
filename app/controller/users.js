@@ -11,6 +11,7 @@ myApp.controller("usersController", function($scope, $http, alertify, Data) {
     });
 
     $scope.deleteUser = function (username) {
+        console.log(username);
         Data.deleteUser(username)
         .success(function(data) {
           alertify

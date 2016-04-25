@@ -34,6 +34,9 @@ angular.module('apiService', [])
 			getUsers : function() {
 				return $http.get('/api/users');
 			},
+			deleteUser : function(username) {
+				return $http.delete('/api/user/' + username);
+			},
 			deleteNews : function(id) {
 				return $http.delete('/api/news/' + id);
 			}
