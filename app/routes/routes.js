@@ -394,7 +394,7 @@ module.exports = function(app) {
             patientToks.heartRateScore = req.body.heartRateScore;
             patientToks.consciousnessScore = req.body.consciousnessScore;
             var score = parseInt(req.body.respirationScore, 10) + parseInt(req.body.oxygenSatScore, 10) + parseInt(req.body.oxygenScore, 10) + parseInt(req.body.tempScore, 10) + parseInt(req.body.systolicScore, 10) + parseInt(req.body.heartRateScore, 10) + parseInt(req.body.consciousnessScore, 10);
-            patientToks.score = req.body.score;
+            patientToks.score = score;
             patientToks.currentdate = dd + '/' + mm + '/' + yyyy;
             patientToks.currenttime = hh + ':' + min;
 
