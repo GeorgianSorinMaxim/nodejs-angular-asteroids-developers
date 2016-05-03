@@ -31,40 +31,40 @@ module.exports = function(app) {
 
         // Experiment with sending notifications960 during 4 hours for testing the receival rate and battery life of the paired smartwatches
         // Send 50 notifications at a time
-        // var regTokens = [];
-        // var message = "";
-        // var i = 1;
+        var regTokens = [];
+        var message = "";
+        var i = 1;
 
-        // Device.find(function (err, devices) {
-        //     if (err) return err;
-        //     devices.forEach(function (item) {
-        //         var stringregid = "dwi1T9u3hQM:" + item.regid;
-        //         regTokens.push(stringregid);
-        //     });
+        Device.find(function (err, devices) {
+            if (err) return err;
+            devices.forEach(function (item) {
+                var stringregid = "dwi1T9u3hQM:" + item.regid;
+                regTokens.push(stringregid);
+            });
 
-        //     setInterval(function() {   
+            setInterval(function() {   
 
-        //         // SEND GCM PUSH NOTIFICATION
-        //         message = new gcm.Message();
-        //         message.addNotification({
-        //           title: 'Notification ' + i,
-        //           body: 'sent!',
-        //           icon: 'icon',
-        //           sound: 'default'
-        //         });
+                // SEND GCM PUSH NOTIFICATION
+                message = new gcm.Message();
+                message.addNotification({
+                  title: 'Notification ' + i,
+                  body: 'sent!',
+                  icon: 'icon',
+                  sound: 'default'
+                });
 
-        //         console.log(message);
+                console.log(message);
 
-        //         sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-        //             if(err) {
-        //                 console.log(err);
-        //                 return err;
-        //             }
-        //             // else console.log(response);
-        //         });
-        //         i++;
-        //     }, 15000); 
-        // });
+                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                    if(err) {
+                        console.log(err);
+                        return err;
+                    }
+                    // else console.log(response);
+                });
+                i++;
+            }, 15000); 
+        });
         // Experiment code ends here
 
         res.render('index.ejs');
@@ -352,6 +352,161 @@ module.exports = function(app) {
             });
         } else return "No provided user details!";    
     });
+
+
+    // POST API NEWS page
+    app.post('/api/bos', function(req, res, next) {
+        var regTokens = [];
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1;
+        var yyyy = today.getFullYear();
+        var hh = today.getHours();
+        var min = today.getMinutes();
+
+        if (min < 10) min = "0" + min;
+        if (hh < 10) hh = "0" + hh;
+        if (mm < 10) mm = "0" + mm;
+        if (dd < 10) dd = "0" + dd;
+
+        // console.log(today, dd, mm, yyyy, hh, min);
+
+        if (req.body.cpr && req.body.lastname && req.body.respiration && req.body.oxygenSat && req.body.oxygen && req.body.temp && req.body.systolic && req.body.heartRate && req.body.consciousness) {
+            var patientToks = new PatientNews();
+            patientToks.cpr = req.body.cpr;
+            patientToks.firstname = req.body.firstname;
+            patientToks.lastname = req.body.lastname;
+            patientToks.respiration = req.body.respiration;
+            patientToks.oxygenSat = req.body.oxygenSat;
+            patientToks.oxygen = req.body.oxygen;
+            patientToks.temperature = req.body.temp;
+            patientToks.systolic = req.body.systolic;
+            patientToks.heartRate = req.body.heartRate;
+            patientToks.consciousness = req.body.consciousness;
+
+            var respirationScore = '';
+            if (req.body.respiration <= 9) {
+                respirationScore = 3;
+            } else if (req.body.respiration > 9 || req.body.respiration <= 11){
+                respirationScore = 1;
+            } else if (req.body.respiration > 11 || req.body.respiration <= 20){
+                respirationScore = 0;
+            } else if (req.body.respiration > 20 || req.body.respiration <= 24){
+                respirationScore = 2;
+            } else if (req.body.respiration > 25){
+                respirationScore = 3;
+            }
+
+            var oxygenSatScore = '';
+            if (req.body.oxygenSat <= 91) {
+                oxygenSatScore = 3;
+            } else if (req.body.oxygenSat > 91 || req.body.oxygenSat <= 93){
+                oxygenSatScore = 2;
+            } else if (req.body.oxygenSat > 93 || req.body.oxygenSat <= 95){
+                oxygenSatScore = 1;
+            } else if (req.body.oxygenSat > 95){
+                oxygenSatScore = 0;
+            }
+
+            var supplementScore = '';
+            if (req.body.oxygen === 'Yes') {
+                oxygenSatScore = 2;
+            } else {
+                oxygenSatScore = 0;
+            } 
+
+            var temperatureScore = '';
+            if (req.body.temperature <= 35.0) {
+                temperatureScore = 3;
+            } else if (req.body.temperature > 35.0 || req.body.temperature <= 36.0){
+                temperatureScore = 1;
+            } else if (req.body.temperature > 36.0 || req.body.temperature <= 38.0){
+                temperatureScore = 0;
+            } else if (req.body.temperature > 38.0 || req.body.temperature <= 39.0){
+                temperatureScore = 1;
+            } else if (req.body.temperature > 39.0){
+                temperatureScore = 2;
+            }
+
+            var sysScore = '';
+            if (req.body.systolic <= 90) {
+                sysScore = 3;
+            } else if (req.body.systolic > 90 || req.body.systolic <= 100){
+                sysScore = 2;
+            } else if (req.body.systolic > 100 || req.body.systolic <= 110){
+                sysScore = 1;
+            } else if (req.body.systolic > 110 || req.body.systolic <= 219){
+                sysScore = 0;
+            } else if (req.body.systolic > 219){
+                sysScore = 3;
+            }
+
+            var bpScore = '';
+            if (req.body.heartRate <= 40) {
+                bpScore = 3;
+            } else if (req.body.heartRate > 40 || req.body.heartRate <= 50){
+                bpScore = 1;
+            } else if (req.body.heartRate > 50 || req.body.heartRate <= 90){
+                bpScore = 0;
+            } else if (req.body.heartRate > 90 || req.body.heartRate <= 110){
+                bpScore = 1;
+            } else if (req.body.heartRate > 110 || req.body.heartRate <= 130){
+                bpScore = 2;
+            } else if (req.body.heartRate > 130){
+                bpScore = 3;
+            }
+
+            var consScore = '';
+            if (req.body.consciousness === 'A') {
+                consScore = 0;
+            } else {
+                consScore = 3;
+            } 
+
+            var score = parseInt(respirationScore, 10) + parseInt(oxygenSatScore, 10) + parseInt(supplementScore, 10) + parseInt(temperatureScore, 10) + parseInt(sysScore, 10) + parseInt(bpScore, 10) + parseInt(consScore, 10);
+
+            patientToks.respirationScore = respirationScore;
+            patientToks.oxygenSatScore = oxygenSatScore;
+            patientToks.oxygenScore = supplementScore;
+            patientToks.temperatureScore = temperatureScore;
+            patientToks.systolicScore = sysScore;
+            patientToks.heartRateScore = bpScore;
+            patientToks.consciousnessScore = consScore;
+            patientToks.score = score;
+            patientToks.currentdate = dd + '/' + mm + '/' + yyyy;
+            patientToks.currenttime = hh + ':' + min;
+
+            Device.find(function (err, devices) {
+                if (err) return err;
+                devices.forEach(function (item) {
+                    var stringregid = "dwi1T9u3hQM:"+item.regid;
+                    regTokens.push(stringregid);
+                });
+
+                var message = new gcm.Message();
+                message.addNotification({
+                  title: 'BOS Registeret',
+                  body: 'Score: ' + score + ' \n\ ' + ' Navn: ' + req.body.firstname + ' ' + req.body.lastname + ' \n\ ' + ' CPR: ' + req.body.cpr,
+                  icon: 'icon',
+                  sound: 'default'
+                });
+
+                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                    if(err) { 
+                        console.error(err);
+                        return err;
+                    } else console.log(response);
+                });
+
+                patientToks.save(function(err) {
+                    if (err) return next(err);
+                    res.json(patientToks);
+                });
+            });
+        } else return "No provided NEWS details!";
+    }); 
+
 
     // POST API NEWS page
     app.post('/api/news', function(req, res, next) {
