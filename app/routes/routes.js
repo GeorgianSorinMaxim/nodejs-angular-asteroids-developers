@@ -411,21 +411,21 @@ module.exports = function(app) {
 
             var supplementScore = '';
             if (req.body.oxygen === 'Yes') {
-                oxygenSatScore = 2;
+                supplementScore = 2;
             } else {
-                oxygenSatScore = 0;
+                supplementScore = 0;
             } 
 
             var temperatureScore = '';
             if (req.body.temperature <= 35.0) {
                 temperatureScore = 3;
-            } else if (req.body.temperature > 35.0 || req.body.temperature <= 36.0){
+            } else if (req.body.temperature > 35 || req.body.temperature <= 36){
                 temperatureScore = 1;
-            } else if (req.body.temperature > 36.0 || req.body.temperature <= 38.0){
+            } else if (req.body.temperature > 36 || req.body.temperature <= 38){
                 temperatureScore = 0;
-            } else if (req.body.temperature > 38.0 || req.body.temperature <= 39.0){
+            } else if (req.body.temperature > 38 || req.body.temperature <= 39){
                 temperatureScore = 1;
-            } else if (req.body.temperature > 39.0){
+            } else if (req.body.temperature > 39){
                 temperatureScore = 2;
             }
 
