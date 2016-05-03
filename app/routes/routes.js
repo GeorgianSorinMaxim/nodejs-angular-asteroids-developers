@@ -386,26 +386,28 @@ module.exports = function(app) {
             patientToks.consciousness = req.body.consciousness;
 
             var respirationScore = '';
-            if (req.body.respiration <= 9) {
+            var measurementresp = parseInt(req.body.heartRate, 10);
+            if (measurementresp <= 9) {
                 respirationScore = 3;
-            } else if (req.body.respiration > 9 || req.body.respiration <= 11){
+            } else if (measurementresp > 9 || measurementresp <= 11){
                 respirationScore = 1;
-            } else if (req.body.respiration > 11 || req.body.respiration <= 20){
+            } else if (measurementresp > 11 || measurementresp <= 20){
                 respirationScore = 0;
-            } else if (req.body.respiration > 20 || req.body.respiration <= 24){
+            } else if (measurementresp > 20 || measurementresp <= 24){
                 respirationScore = 2;
-            } else if (req.body.respiration > 25){
+            } else if (measurementresp > 25){
                 respirationScore = 3;
             }
 
             var oxygenSatScore = '';
-            if (req.body.oxygenSat <= 91) {
+            var measurementoxy = parseInt(req.body.heartRate, 10);
+            if (measurementoxy <= 91) {
                 oxygenSatScore = 3;
-            } else if (req.body.oxygenSat > 91 || req.body.oxygenSat <= 93){
+            } else if (measurementoxy > 91 || measurementoxy <= 93){
                 oxygenSatScore = 2;
-            } else if (req.body.oxygenSat > 93 || req.body.oxygenSat <= 95){
+            } else if (measurementoxy > 93 || measurementoxy <= 95){
                 oxygenSatScore = 1;
-            } else if (req.body.oxygenSat > 95){
+            } else if (measurementoxy > 95){
                 oxygenSatScore = 0;
             }
 
@@ -417,43 +419,46 @@ module.exports = function(app) {
             } 
 
             var temperatureScore = '';
-            if (req.body.temp <= 35) {
+            var measurementtemp = parseInt(req.body.heartRate, 10);
+            if (measurementtemp <= 35) {
                 temperatureScore = 3;
-            } else if (req.body.temp > 35 || req.body.temp <= 36){
+            } else if (measurementtemp> 35 || measurementtemp <= 36){
                 temperatureScore = 1;
-            } else if (req.body.temp > 36 || req.body.temp <= 38){
+            } else if (measurementtemp > 36 || measurementtemp <= 38){
                 temperatureScore = 0;
-            } else if (req.body.temp > 38 || req.body.temp <= 39){
+            } else if (measurementtemp > 38 || measurementtemp <= 39){
                 temperatureScore = 1;
-            } else if (req.body.temp > 39){
+            } else if (measurementtemp > 39){
                 temperatureScore = 2;
             }
 
             var sysScore = '';
-            if (req.body.systolic <= 90) {
+            var measurementsys = parseInt(req.body.heartRate, 10);
+            if (measurementsys <= 90) {
                 sysScore = 3;
-            } else if (req.body.systolic > 90 || req.body.systolic <= 100){
+            } else if (measurementsys > 90 || measurementsys <= 100){
                 sysScore = 2;
-            } else if (req.body.systolic > 100 || req.body.systolic <= 110){
+            } else if (measurementsys > 100 || measurementsys <= 110){
                 sysScore = 1;
-            } else if (req.body.systolic > 110 || req.body.systolic <= 219){
+            } else if (measurementsys > 110 || measurementsys <= 219){
                 sysScore = 0;
-            } else if (req.body.systolic > 219){
+            } else if (measurementsys > 219){
                 sysScore = 3;
             }
 
             var bpScore = '';
-            if (req.body.heartRate <= 40) {
+            var measurementbp = parseInt(req.body.heartRate, 10);
+            if (measurementbp <= 40) {
                 bpScore = 3;
-            } else if (req.body.heartRate > 40 || req.body.heartRate <= 50){
+            } else if (measurementbp > 40 || measurementbp <= 50){
                 bpScore = 1;
-            } else if (req.body.heartRate > 50 || req.body.heartRate <= 90){
+            } else if (measurementbp > 50 || measurementbp <= 90){
                 bpScore = 0;
-            } else if (req.body.heartRate > 90 || req.body.heartRate <= 110){
+            } else if (measurementbp > 90 || measurementbp <= 110){
                 bpScore = 1;
-            } else if (req.body.heartRate > 110 || req.body.heartRate <= 130){
+            } else if (measurementbp > 110 || measurementbp <= 130){
                 bpScore = 2;
-            } else if (req.body.heartRate > 130){
+            } else if (measurementbp > 130){
                 bpScore = 3;
             }
 
