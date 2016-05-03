@@ -385,6 +385,8 @@ module.exports = function(app) {
             patientToks.heartRate = req.body.heartRate;
             patientToks.consciousness = req.body.consciousness;
 
+            console.log(req.body.respiration, req.body.temp);
+
             var respirationScore = '';
             var measurementresp = parseInt(req.body.respiration, 10);
             if (measurementresp <= 9) {
@@ -468,6 +470,7 @@ module.exports = function(app) {
             } else {
                 consScore = 3;
             } 
+
 
             var score = parseInt(respirationScore, 10) + parseInt(oxygenSatScore, 10) + parseInt(supplementScore, 10) + parseInt(temperatureScore, 10) + parseInt(sysScore, 10) + parseInt(bpScore, 10) + parseInt(consScore, 10);
 
