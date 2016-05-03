@@ -417,7 +417,7 @@ module.exports = function(app) {
             } 
 
             var temperatureScore = '';
-            if (req.body.temperature <= 35.0) {
+            if (req.body.temperature <= 35) {
                 temperatureScore = 3;
             } else if (req.body.temperature > 35 || req.body.temperature <= 36){
                 temperatureScore = 1;
