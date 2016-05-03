@@ -373,6 +373,7 @@ module.exports = function(app) {
         // console.log(today, dd, mm, yyyy, hh, min);
 
         if (req.body.cpr && req.body.lastname && req.body.respiration && req.body.oxygenSat && req.body.oxygen && req.body.temp && req.body.systolic && req.body.heartRate && req.body.consciousness) {
+
             var patientToks = new PatientNews();
             patientToks.cpr = req.body.cpr;
             patientToks.firstname = req.body.firstname;
@@ -385,105 +386,117 @@ module.exports = function(app) {
             patientToks.heartRate = req.body.heartRate;
             patientToks.consciousness = req.body.consciousness;
 
-            console.log(req.body.respiration, req.body.temp);
-
-            var respirationScore = '';
-            var measurementresp = parseInt(req.body.respiration, 10);
-            if (measurementresp <= 9) {
-                respirationScore = 3;
-            } else if (measurementresp > 9 || measurementresp <= 11){
-                respirationScore = 1;
-            } else if (measurementresp > 11 || measurementresp <= 20){
-                respirationScore = 0;
-            } else if (measurementresp > 20 || measurementresp <= 24){
-                respirationScore = 2;
-            } else if (measurementresp > 25){
-                respirationScore = 3;
-            }
-
-            var oxygenSatScore = '';
-            var measurementoxy = parseInt(req.body.oxygenSat, 10);
-            if (measurementoxy <= 91) {
-                oxygenSatScore = 3;
-            } else if (measurementoxy > 91 || measurementoxy <= 93){
-                oxygenSatScore = 2;
-            } else if (measurementoxy > 93 || measurementoxy <= 95){
-                oxygenSatScore = 1;
-            } else if (measurementoxy > 95){
-                oxygenSatScore = 0;
-            }
-
-            var supplementScore = '';
-            if (req.body.oxygen === 'Yes') {
-                supplementScore = 2;
-            } else {
-                supplementScore = 0;
-            } 
-
-            var temperatureScore = '';
-            var measurementtemp = parseInt(req.body.temp, 10);
-            if (measurementtemp <= 35) {
-                temperatureScore = 3;
-            } else if (measurementtemp> 35 || measurementtemp <= 36){
-                temperatureScore = 1;
-            } else if (measurementtemp > 36 || measurementtemp <= 38){
-                temperatureScore = 0;
-            } else if (measurementtemp > 38 || measurementtemp <= 39){
-                temperatureScore = 1;
-            } else if (measurementtemp > 39){
-                temperatureScore = 2;
-            }
-
-            var sysScore = '';
-            var measurementsys = parseInt(req.body.systolic, 10);
-            if (measurementsys <= 90) {
-                sysScore = 3;
-            } else if (measurementsys > 90 || measurementsys <= 100){
-                sysScore = 2;
-            } else if (measurementsys > 100 || measurementsys <= 110){
-                sysScore = 1;
-            } else if (measurementsys > 110 || measurementsys <= 219){
-                sysScore = 0;
-            } else if (measurementsys > 219){
-                sysScore = 3;
-            }
-
-            var bpScore = '';
-            var measurementbp = parseInt(req.body.heartRate, 10);
-            if (measurementbp <= 40) {
-                bpScore = 3;
-            } else if (measurementbp > 40 || measurementbp <= 50){
-                bpScore = 1;
-            } else if (measurementbp > 50 || measurementbp <= 90){
-                bpScore = 0;
-            } else if (measurementbp > 90 || measurementbp <= 110){
-                bpScore = 1;
-            } else if (measurementbp > 110 || measurementbp <= 130){
-                bpScore = 2;
-            } else if (measurementbp > 130){
-                bpScore = 3;
-            }
-
-            var consScore = '';
-            if (req.body.consciousness === 'A') {
-                consScore = 0;
-            } else {
-                consScore = 3;
-            } 
-
-
-            var score = parseInt(respirationScore, 10) + parseInt(oxygenSatScore, 10) + parseInt(supplementScore, 10) + parseInt(temperatureScore, 10) + parseInt(sysScore, 10) + parseInt(bpScore, 10) + parseInt(consScore, 10);
-
-            patientToks.respirationScore = respirationScore;
-            patientToks.oxygenSatScore = oxygenSatScore;
-            patientToks.oxygenScore = supplementScore;
-            patientToks.temperatureScore = temperatureScore;
-            patientToks.systolicScore = sysScore;
-            patientToks.heartRateScore = bpScore;
-            patientToks.consciousnessScore = consScore;
-            patientToks.score = score;
+            patientToks.respirationScore = req.body.respirationScore;
+            patientToks.oxygenSatScore = req.body.oxygenSatScore;
+            patientToks.oxygenScore = req.body.supplementScore;
+            patientToks.temperatureScore = req.body.temperatureScore;
+            patientToks.systolicScore = req.body.sysScore;
+            patientToks.heartRateScore = req.body.bpScore;
+            patientToks.consciousnessScore = req.body.consScore;
+            var score = parseInt(req.body.respirationScore, 10) + parseInt(req.body.oxygenSatScore, 10) + parseInt(req.body.supplementScore, 10) + parseInt(req.body.temperatureScore, 10) + parseInt(req.body.sysScore, 10) + parseInt(req.body.bpScore, 10) + parseInt(req.body.consScore, 10);
+            patientToks.score = req.body.score;
             patientToks.currentdate = dd + '/' + mm + '/' + yyyy;
             patientToks.currenttime = hh + ':' + min;
+
+            // console.log(req.body.respiration, req.body.temp);
+
+            // var respirationScore = '';
+            // var measurementresp = parseInt(req.body.respiration, 10);
+            // if (measurementresp <= 9) {
+            //     respirationScore = 3;
+            // } else if (measurementresp > 9 || measurementresp <= 11){
+            //     respirationScore = 1;
+            // } else if (measurementresp > 11 || measurementresp <= 20){
+            //     respirationScore = 0;
+            // } else if (measurementresp > 20 || measurementresp <= 24){
+            //     respirationScore = 2;
+            // } else if (measurementresp > 25){
+            //     respirationScore = 3;
+            // }
+
+            // var oxygenSatScore = '';
+            // var measurementoxy = parseInt(req.body.oxygenSat, 10);
+            // if (measurementoxy <= 91) {
+            //     oxygenSatScore = 3;
+            // } else if (measurementoxy > 91 || measurementoxy <= 93){
+            //     oxygenSatScore = 2;
+            // } else if (measurementoxy > 93 || measurementoxy <= 95){
+            //     oxygenSatScore = 1;
+            // } else if (measurementoxy > 95){
+            //     oxygenSatScore = 0;
+            // }
+
+            // var supplementScore = '';
+            // if (req.body.oxygen === 'Yes') {
+            //     supplementScore = 2;
+            // } else {
+            //     supplementScore = 0;
+            // } 
+
+            // var temperatureScore = '';
+            // var measurementtemp = parseInt(req.body.temp, 10);
+            // if (measurementtemp <= 35) {
+            //     temperatureScore = 3;
+            // } else if (measurementtemp> 35 || measurementtemp <= 36){
+            //     temperatureScore = 1;
+            // } else if (measurementtemp > 36 || measurementtemp <= 38){
+            //     temperatureScore = 0;
+            // } else if (measurementtemp > 38 || measurementtemp <= 39){
+            //     temperatureScore = 1;
+            // } else if (measurementtemp > 39){
+            //     temperatureScore = 2;
+            // }
+
+            // var sysScore = '';
+            // var measurementsys = parseInt(req.body.systolic, 10);
+            // if (measurementsys <= 90) {
+            //     sysScore = 3;
+            // } else if (measurementsys > 90 || measurementsys <= 100){
+            //     sysScore = 2;
+            // } else if (measurementsys > 100 || measurementsys <= 110){
+            //     sysScore = 1;
+            // } else if (measurementsys > 110 || measurementsys <= 219){
+            //     sysScore = 0;
+            // } else if (measurementsys > 219){
+            //     sysScore = 3;
+            // }
+
+            // var bpScore = '';
+            // var measurementbp = parseInt(req.body.heartRate, 10);
+            // if (measurementbp <= 40) {
+            //     bpScore = 3;
+            // } else if (measurementbp > 40 || measurementbp <= 50){
+            //     bpScore = 1;
+            // } else if (measurementbp > 50 || measurementbp <= 90){
+            //     bpScore = 0;
+            // } else if (measurementbp > 90 || measurementbp <= 110){
+            //     bpScore = 1;
+            // } else if (measurementbp > 110 || measurementbp <= 130){
+            //     bpScore = 2;
+            // } else if (measurementbp > 130){
+            //     bpScore = 3;
+            // }
+
+            // var consScore = '';
+            // if (req.body.consciousness === 'A') {
+            //     consScore = 0;
+            // } else {
+            //     consScore = 3;
+            // } 
+
+
+            // var score = parseInt(respirationScore, 10) + parseInt(oxygenSatScore, 10) + parseInt(supplementScore, 10) + parseInt(temperatureScore, 10) + parseInt(sysScore, 10) + parseInt(bpScore, 10) + parseInt(consScore, 10);
+
+            // patientToks.respirationScore = respirationScore;
+            // patientToks.oxygenSatScore = oxygenSatScore;
+            // patientToks.oxygenScore = supplementScore;
+            // patientToks.temperatureScore = temperatureScore;
+            // patientToks.systolicScore = sysScore;
+            // patientToks.heartRateScore = bpScore;
+            // patientToks.consciousnessScore = consScore;
+            // patientToks.score = score;
+            // patientToks.currentdate = dd + '/' + mm + '/' + yyyy;
+            // patientToks.currenttime = hh + ':' + min;
 
             Device.find(function (err, devices) {
                 if (err) return err;
