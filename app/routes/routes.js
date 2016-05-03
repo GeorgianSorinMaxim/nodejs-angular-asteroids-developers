@@ -417,15 +417,15 @@ module.exports = function(app) {
             } 
 
             var temperatureScore = '';
-            if (req.body.temperature <= 35) {
+            if (req.body.temp <= 35) {
                 temperatureScore = 3;
-            } else if (req.body.temperature > 35 || req.body.temperature <= 36){
+            } else if (req.body.temp > 35 || req.body.temp <= 36){
                 temperatureScore = 1;
-            } else if (req.body.temperature > 36 || req.body.temperature <= 38){
+            } else if (req.body.temp > 36 || req.body.temp <= 38){
                 temperatureScore = 0;
-            } else if (req.body.temperature > 38 || req.body.temperature <= 39){
+            } else if (req.body.temp > 38 || req.body.temp <= 39){
                 temperatureScore = 1;
-            } else if (req.body.temperature > 39){
+            } else if (req.body.temp > 39){
                 temperatureScore = 2;
             }
 
