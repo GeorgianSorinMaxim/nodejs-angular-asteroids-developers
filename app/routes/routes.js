@@ -386,7 +386,7 @@ module.exports = function(app) {
             patientToks.consciousness = req.body.consciousness;
 
             var respirationScore = '';
-            var measurementresp = parseInt(req.body.heartRate, 10);
+            var measurementresp = parseInt(req.body.respiration, 10);
             if (measurementresp <= 9) {
                 respirationScore = 3;
             } else if (measurementresp > 9 || measurementresp <= 11){
@@ -400,7 +400,7 @@ module.exports = function(app) {
             }
 
             var oxygenSatScore = '';
-            var measurementoxy = parseInt(req.body.heartRate, 10);
+            var measurementoxy = parseInt(req.body.oxygenSat, 10);
             if (measurementoxy <= 91) {
                 oxygenSatScore = 3;
             } else if (measurementoxy > 91 || measurementoxy <= 93){
@@ -419,7 +419,7 @@ module.exports = function(app) {
             } 
 
             var temperatureScore = '';
-            var measurementtemp = parseInt(req.body.heartRate, 10);
+            var measurementtemp = parseInt(req.body.temp, 10);
             if (measurementtemp <= 35) {
                 temperatureScore = 3;
             } else if (measurementtemp> 35 || measurementtemp <= 36){
@@ -433,7 +433,7 @@ module.exports = function(app) {
             }
 
             var sysScore = '';
-            var measurementsys = parseInt(req.body.heartRate, 10);
+            var measurementsys = parseInt(req.body.systolic, 10);
             if (measurementsys <= 90) {
                 sysScore = 3;
             } else if (measurementsys > 90 || measurementsys <= 100){
