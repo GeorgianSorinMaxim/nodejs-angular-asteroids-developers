@@ -362,7 +362,7 @@ module.exports = function(app) {
         var dd = today.getDate();
         var mm = today.getMonth()+1;
         var yyyy = today.getFullYear();
-        var hh = today.getHours();
+        var hh = today.getHours() + 2;
         var min = today.getMinutes();
 
         if (min < 10) min = "0" + min;
@@ -579,6 +579,7 @@ module.exports = function(app) {
                   icon: 'icon',
                   sound: 'default'
                 });
+                message.timeToLive = 99999;
 
                 sender.send(message, { registrationTokens: regTokens }, function (err, response) {
                     if(err) { 
