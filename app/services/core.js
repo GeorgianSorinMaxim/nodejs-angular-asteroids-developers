@@ -1,44 +1,35 @@
 angular.module('apiService', [])
 	.factory('Data', ['$http', function($http) {
 		return {
-			getNews : function() {
-				return $http.get('/api/newsList');
+			getGroups : function() {
+				return $http.get('/api/groups');
 			},
-			getPatients : function() {
-				return $http.get('/api/patients');
+			getGroup : function(id) {
+				return $http.get('/api/group', id);
 			},
-			getDevices : function() {
-				return $http.get('/api/devices');
+			createGroup : function(data) {
+				return $http.post('/api/group', data);
 			},
-			getUser : function() {
-				return $http.get('/api/user');
+			updateGroup : function (data) {
+				return $http.post('/api/updateGroup/', data);
 			},
-			createToks : function(newsData) {
-				return $http.post('/api/news', newsData);
+			deleteGroup : function(id) {
+				return $http.delete('/api/group/' + id);
 			},
-			createPatient : function(patientData) {
-				return $http.post('/api/patients', patientData);
+			getAsteriods : function() {
+				return $http.get('/api/asteroids');
 			},
-			sendMessage : function(message) {
-				return $http.post('/api/send', message);
-			},	
-			registerUser : function(user) {
-				return $http.post('/api/registerUser', user);
-			},	
-			updatePatient : function (user) {
-				return $http.post('/api/updatePatient', user);
+			getAsteroid : function(id) {
+				return $http.get('/api/asteroid', id);
 			},
-			delete : function(id) {
-				return $http.delete('/api/patients/' + id);
+			createAsteroid : function(data) {
+				return $http.post('/api/asteroid', data);
 			},
-			getUsers : function() {
-				return $http.get('/api/users');
+			updateAsteroid : function (data) {
+				return $http.post('/api/updateAsteroid/', data);
 			},
-			deleteUser : function(username) {
-				return $http.delete('/api/user/' + username);
-			},
-			deleteNews : function(id) {
-				return $http.delete('/api/news/' + id);
+			deleteAsteroid : function(id) {
+				return $http.delete('/api/asteroid/' + id);
 			}
 		}
 	}]);

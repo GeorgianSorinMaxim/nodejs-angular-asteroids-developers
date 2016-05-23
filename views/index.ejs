@@ -1,12 +1,13 @@
 <!doctype html>
-<html>
+<html ng-app="myApp">
 <head>
-    <title>Hjem</title>
+    <title>Home</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/ngAlertify.js"></script>
 
     <!-- okeyNav -->
     <link rel="stylesheet" href="./css/okayNav.min.css" media="screen">
@@ -14,26 +15,55 @@
 
     <link rel="stylesheet" href="./css/style.css">
     <script src="./controller/index.js"></script>
-
+    <script src="./services/core.js"></script>
 </head>
-<body>
+<body ng-controller="indexController">
     <header id="header">
         <nav role="navigation" id="nav-main" class="okayNav">
             <ul>
-              <li><a href="/">Hjem</a></li>
-              <li><a href="/news">Registrere BOS</a></li>
-              <li><a href="/newsList">BOS Liste</a></li>
-              <li><a href="/user">Ny bruger for mobilen</a></li>      
-              <li><a href="/users">Bruger liste</a></li>                                   
+              <li><a href="/">Home</a></li>
+              <li><a href="/group">Register Group of Developers</a></li>
+              <li><a href="/asteroid">Register Asteroid</a></li>                                    
             </ul>
         </nav>
+<!--         <p> You are currently logged in as #{user.username}</p>
+        <a href="/logout">Logout</a> -->
     </header>
 
     </br>
 
     <main>
-        <h1>Software Framework Prototype by Georgian-Sorin Maxim</h1>
-        <h2>Version 0.0.1</h2>
+      <h1>Selected Groups</h1>
+      <p>Select a group of developers and an asteroid to check if the group is selected!</p>
+      <select name="asteroids" ng-model="asteroids" ng-options="asteroid.name for asteroid in asteroidList"></select>
+      <select name="groups" ng-model="groups" ng-options="group.name for group in groupList"></select>
+      <button class="button" ng-click="check(this.asteroids, this.groups)" ng-show="asteroids && groups">Check if the selected group is taken in the selected asteroid</button>
+      </br></br>
+
+      <h1>Groups of Developers</h1>
+      <div ng-repeat="group in groupList">
+        <ng-form name="stringForm">
+          <span class="name">{{ group.name }}</span>
+          <input type="text" name="newName" id="newName" ng-model="group.newName" placeholder="New Name" ng-pattern="onlyLetters"/>
+          <a href="" ng-click="deleteGroup(this.group._id)" class="deleteButton"/>Delete</a>
+          <a href="" ng-click="updateGroup(this.group)" class="updateButton" ng-hide="!group.newName"/>Update</a>
+          <span class="error" ng-show="stringForm.newName.$error.pattern">Please enter a valid Group Developer name!</span>
+        </ng-form>
+      </div>
+      <p ng-show="groupList.length === 0">No groups of developers created yet!</p>
+      </br>
+      
+      <h1>Asteroids</h1>
+      <div ng-repeat="asteroid in asteroidList">
+        <ng-form name="stringForm"> 
+          <span class="name">{{ asteroid.name }}</span>
+          <input type="text" name="newName" id="newName" ng-model="asteroid.newName" placeholder="New Name" ng-pattern="onlyLetters"/>
+          <a href="" ng-click="deleteAsteroid(this.asteroid._id)" class="deleteButton"/>Delete</a>
+          <a href="" ng-click="updateAsteroid(this.asteroid)" class="updateButton" ng-hide="!asteroid.newName"/>Update</a>
+          <span class="error" ng-show="stringForm.newName.$error.pattern">Please enter a valid Asteroid name!</span>
+        </ng-form>
+      </div>
+      <p ng-show="asteroidList.length === 0">No asteroids created yet!</p>
     </main>
 <script>
   var navigation = $('#nav-main').okayNav();
