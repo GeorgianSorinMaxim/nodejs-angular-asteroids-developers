@@ -1,10 +1,10 @@
 ## Simple Asteroid and Groups of Developers application with a web frontend and API backend with a datastore.
 
 ## Background:
--We know that behind each Asteroid hides an UFO. Those UFOs are constantly seeking good developers here on Earth. Unfortunately, they only have a certain number of vacancies available and therefore, can only take one Group of developers at a time.
--There is an ingenious process to select this Group, associating the name of the Asteroid with the name of the Group. Both names are converted into a number represented by the product of the letters where 'A' is 1, 'B' is 2 ... 'Z' is 26. If the remainder of the division of the number that represents the Group by 45 is equal to the remainder of the division of the number that represents the Asteroid by 45, then the group will be taken.
--Your task is to write a web application allows users to select an Asteroid and a group name, and displays in the screen whether or not the group will be taken.
--You should use JavaScript, but the choice of framework is up to you.
+- We know that behind each Asteroid hides an UFO. Those UFOs are constantly seeking good developers here on Earth. Unfortunately, they only have a certain number of vacancies available and therefore, can only take one Group of developers at a time.
+- There is an ingenious process to select this Group, associating the name of the Asteroid with the name of the Group. Both names are converted into a number represented by the product of the letters where 'A' is 1, 'B' is 2 ... 'Z' is 26. If the remainder of the division of the number that represents the Group by 45 is equal to the remainder of the division of the number that represents the Asteroid by 45, then the group will be taken.
+- Your task is to write a web application allows users to select an Asteroid and a group name, and displays in the screen whether or not the group will be taken.
+- You should use JavaScript, but the choice of framework is up to you.
 - Group names and Asteroid names should always be in UPPERCASE.
 - Only the letters from 'A' to 'Z' are allowed for both the Asteroid and Group names.
 - The application should have at least the a number Asteroids and Groups.
@@ -23,11 +23,11 @@
 
   - Install the project and its dependecies, by opening the terminal and navigating to the project folder:
 ``` $ cd FOLDER_PATH```
-``` $ npm install``
+``` $ npm install```
   - In the case your environment lacks some modules, you might be requied to install them.
 
   - Run locally when being in the project folder using Nodemon (automatically restarts the server when there are changes to the files):
-```$ nodemon server```
+``` $ nodemon server```
   - Open the browser and go to the following URL: http://localhost:3000/
 
 
